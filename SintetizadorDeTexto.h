@@ -49,9 +49,9 @@ public:
     
     void SintetizadorDeTexto::quitSpaces();
     
-    string SintetizadorDeTexto::readLn;
+    string SintetizadorDeTexto::readLn();
     
-    string SintetizadorDeTexto::readWord;
+    string SintetizadorDeTexto::readWord();
     
     void SintetizadorDeTexto::setFileIn(string fileIn);
     
@@ -59,8 +59,12 @@ public:
     
 private:
     
+    fstream fileIn;
+    fstream fileOut;
+    fstream fileTemp;
+    
     void SintetizadorDeTexto::saveTemp();
-
+    
 };
 
 #endif /* SINTETIZADORDETEXTO_H */
