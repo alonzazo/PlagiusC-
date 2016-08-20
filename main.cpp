@@ -12,6 +12,9 @@
  */
 
 #include <cstdlib>
+#include <iostream>
+#include <string>
+#include "SintetizadorDeTexto.h"
 
 using namespace std;
 
@@ -19,7 +22,12 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-
+    string in = "in.txt";
+    string out = "out.txt";
+    SintetizadorDeTexto prueba(in, out);
+    cout << prueba.readLn() << endl;
+    cout << prueba.readLn() << endl;
+    cout << prueba.readLn() << endl;
     return 0;
 }
 
