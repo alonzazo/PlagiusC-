@@ -17,16 +17,15 @@ SintetizadorDeTexto::SintetizadorDeTexto() {
 }
 
 SintetizadorDeTexto::SintetizadorDeTexto(string fileIn, string fileOut) {
-    SintetizadorDeTexto::fileIn = new fstream();
-    SintetizadorDeTexto::fileOut = new fstream();
+    this->fileIn = new fstream();
+    this->fileOut = new fstream();
     
-    SintetizadorDeTexto::fileIn->open(fileIn);
-    SintetizadorDeTexto::fileOut->open(fileOut);
+    this->fileIn->open(fileIn);
+    this->fileOut->open(fileOut);
 }
 
-SintetizadorDeTexto::SintetizadorDeTexto(const SintetizadorDeTexto& orig) {
-    fileIn = orig.getFileIn();
-    fileOut = orig.getFileOut();
+SintetizadorDeTexto::SintetizadorDeTexto(const SintetizadorDeTexto& orig) {   
+    
  }
 
 SintetizadorDeTexto::~SintetizadorDeTexto() {
