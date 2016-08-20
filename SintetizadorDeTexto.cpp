@@ -73,10 +73,19 @@ void SintetizadorDeTexto::quitSpaces(){
             modeWriter = false;
             fileOut->put(pointer);//Escribimos el caracter
         }
+    
     }   
+
 }
 
 string SintetizadorDeTexto::readLn(){
+    ///
+    char[256] result;
+    
+    fileOut >> result;;
+    
+    return result;
+
 }
 
 string SintetizadorDeTexto::readWord(){
