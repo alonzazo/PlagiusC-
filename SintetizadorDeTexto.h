@@ -27,45 +27,48 @@ public:
     
     SintetizadorDeTexto();
     
+    SintetizadorDeTexto(string fileIn, string fileOut);
+    
     SintetizadorDeTexto(const SintetizadorDeTexto& orig);
     
     virtual ~SintetizadorDeTexto();
     
-    void SintetizadorDeTexto::addLineNumbers();
+    void addLineNumbers();
     
-    fstream* SintetizadorDeTexto::getFileIn();
+    fstream* getFileIn();
     
-    fstream* SintetizadorDeTexto::getFileOut();
+    fstream* getFileOut();
     
-    int SintetizadorDeTexto::getWordsNumber();
+    int getWordsNumber();
     
-    void SintetizadorDeTexto::justComments();
+    void justComments();
     
-    void SintetizadorDeTexto::makeLowercase();
+    void makeLowercase();
     
-    void SintetizadorDeTexto::quitComments();
+    void quitComments();
     
-    void SintetizadorDeTexto::quitReserved();
+    void quitReserved();
     
-    void SintetizadorDeTexto::quitSpaces();
+    void quitSpaces();
     
-    string SintetizadorDeTexto::readLn();
+    string readLn();
     
-    string SintetizadorDeTexto::readWord();
+    string readWord();
     
-    void SintetizadorDeTexto::setFileIn(string fileIn);
+    void setFileIn(string fileIn);
     
-    void SintetizadorDeTexto::setFileOut(string fileOut);
+    void setFileOut(string fileOut);
     
 private:
     
-    fstream fileIn;
-    fstream fileOut;
-    fstream fileTemp;
+    fstream* fileIn;
     
-    void SintetizadorDeTexto::saveTemp();
+    fstream* fileOut;
+    
+    fstream* fileTemp;
+    
+    void saveTemp();
     
 };
 
 #endif /* SINTETIZADORDETEXTO_H */
-
