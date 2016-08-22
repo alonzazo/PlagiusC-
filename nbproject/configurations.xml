@@ -16,7 +16,9 @@
                    projectFiles="true">
       <itemPath>AnalizadorDePalabras.cpp</itemPath>
       <itemPath>SintetizadorDeTexto.cpp</itemPath>
+      <itemPath>in.txt</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>out.txt</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -51,7 +53,11 @@
       </item>
       <item path="SintetizadorDeTexto.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="in.txt" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="out.txt" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -83,7 +89,11 @@
       </item>
       <item path="SintetizadorDeTexto.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="in.txt" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="out.txt" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
