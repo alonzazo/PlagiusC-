@@ -26,27 +26,27 @@ public:
     
     AnalizadorDePalabras(const AnalizadorDePalabras& orig);
     
-    list< string > AnalizadorDePalabras::analize();
+    list< string > analize();
     
-    int AnalizadorDePalabras::getSimilarityIndex();
+    int getSimilarityIndex();
     
-    int* AnalizadorDePalabras::getWeights();
+    int* getWeights();
     
-    void AnalizadorDePalabras::setWeights(int wWords, int wPartial, int wComments,int wLines, int wSemantic);
+    void setWeights(int wWords, int wPartial, int wComments,int wLines, int wSemantic);
     
     virtual ~AnalizadorDePalabras();
 
 private:
     
-    list< string > AnalizadorDePalabras::commentsSimilarity();
+    list< string > commentsSimilarity();
     
-    list< string > AnalizadorDePalabras::linesSimilarity();
+    list< string > linesSimilarity();
     
-    list< string > AnalizadorDePalabras::partialSimilarity();
+    list< string > partialSimilarity();
     
-    list< string > AnalizadorDePalabras::semanticSimilarity();
+    list< string > semanticSimilarity();
     
-    list< string > AnalizadorDePalabras::wordsSimilarity();
+    list< string > wordsSimilarity();
     
 };
 
