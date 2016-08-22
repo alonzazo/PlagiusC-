@@ -25,6 +25,7 @@ int main(int argc, char** argv) {
     string in = "in.txt";
     string out = "out.txt";
     SintetizadorDeTexto prueba(in, out);
+    
     cout << prueba.readLn() << endl;
     cout << prueba.readLn() << endl;
     cout << prueba.readLn() << endl;
