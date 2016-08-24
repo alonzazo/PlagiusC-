@@ -38,7 +38,6 @@ SintetizadorDeTexto::~SintetizadorDeTexto() {
 }
 
 void SintetizadorDeTexto::addLineNumbers(){
-
 }
 
 fstream* SintetizadorDeTexto::getFileIn(){
@@ -54,6 +53,7 @@ void SintetizadorDeTexto::justComments(){
 }
 
 void SintetizadorDeTexto::makeLowercase(){
+    
 }
 
 void SintetizadorDeTexto::quitComments(){
@@ -67,25 +67,25 @@ void SintetizadorDeTexto::quitSpaces(){
     //Inicia el algoritmo
     char pointer;                        // Apuntador de caracter
     bool modeWriter = true;              // Bandera de escritura
-    while (!fileIn->eof()){
+    while ( !fileIn->eof() ){
         
         pointer = fileIn->get();         //Obtenemos un caracter
-        if (modeWriter){
+        if ( modeWriter ){
             if (pointer == ' '){
                 modeWriter = false;
             }
-            fileOut->put(pointer);      //Escribimos el caracter en el nuevo archivo
+            fileOut->put( pointer );      //Escribimos el caracter en el nuevo archivo
         } 
         else if (pointer != ' '){
             modeWriter = true;
-            fileOut->put(pointer);      //Escribimos el caracter
+            fileOut->put( pointer );      //Escribimos el caracter
         }
     
     }
     
     //Cerramos archivos para guardar y abrimos
     fileOut->close();
-    fileOut->open(fileOutDir);
+    fileOut->open( fileOutDir );
 }
 
 char* SintetizadorDeTexto::readLn(){
@@ -97,9 +97,11 @@ char* SintetizadorDeTexto::readLn(){
 }
 
 string SintetizadorDeTexto::readWord(){
+    
 }
 
 void SintetizadorDeTexto::setFileIn(string fileIn){
+
 }
 
 void SintetizadorDeTexto::setFileOut(string fileOut){

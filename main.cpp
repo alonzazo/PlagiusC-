@@ -30,6 +30,9 @@ int main(int argc, char** argv) {
     cout << prueba.readLn() << endl;
     cout << prueba.readLn() << endl;
     cout << prueba.readLn() << endl;
+    
+    cout << prueba.readWord() << endl;
+    cout << prueba.readWord() << endl;
     return 0;
 }
 
