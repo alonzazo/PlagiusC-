@@ -17,9 +17,14 @@ SintetizadorDeTexto::SintetizadorDeTexto() {
 }
 
 SintetizadorDeTexto::SintetizadorDeTexto(string fileIn, string fileOut) {
+    //Definimos atributos
+    this->fileInDir = fileIn;
+    this->fileOutDir = fileOut;
+    
     this->fileIn = new fstream();
     this->fileOut = new fstream();
     
+    //Abrmos archivos
     this->fileIn->open(fileIn);
     this->fileOut->open(fileOut);
 }
@@ -58,33 +63,36 @@ void SintetizadorDeTexto::quitReserved(){
 }
 
 void SintetizadorDeTexto::quitSpaces(){
-    char pointer;
-    bool modeWriter = true;
-    while (!fileIn->eofbit){
+    
+    //Inicia el algoritmo
+    char pointer;                        // Apuntador de caracter
+    bool modeWriter = true;              // Bandera de escritura
+    while (!fileIn->eof()){
         
-        pointer = fileIn->get();//Obtenemos un caracter
+        pointer = fileIn->get();         //Obtenemos un caracter
         if (modeWriter){
             if (pointer == ' '){
-                modeWriter = true;
+                modeWriter = false;
             }
-            fileOut->put(pointer);//Escribimos el caracter en el nuevo archivo
+            fileOut->put(pointer);      //Escribimos el caracter en el nuevo archivo
         } 
         else if (pointer != ' '){
-            modeWriter = false;
-            fileOut->put(pointer);//Escribimos el caracter
+            modeWriter = true;
+            fileOut->put(pointer);      //Escribimos el caracter
         }
     
-    }   
-
+    }
+    
+    //Cerramos archivos para guardar y abrimos
+    fileOut->close();
+    fileOut->open(fileOutDir);
 }
 
-string SintetizadorDeTexto::readLn(){
-    ///
-    char[256] result;
+char* SintetizadorDeTexto::readLn(){
     
-    fileOut >> result;;
+    fileOut->getline(readBuffer, 256);
     
-    return result;
+    return readBuffer;
 
 }
 

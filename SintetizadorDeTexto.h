@@ -51,7 +51,7 @@ public:
     
     void quitSpaces();
     
-    string readLn();
+    char* readLn();
     
     string readWord();
     
@@ -61,11 +61,19 @@ public:
     
 private:
     
+    string fileInDir;
+    
+    string fileOutDir;
+    
+    string fileTempDir;
+    
     fstream* fileIn;
     
     fstream* fileOut;
     
     fstream* fileTemp;
+    
+    char readBuffer[256];
     
     void saveTemp();
     

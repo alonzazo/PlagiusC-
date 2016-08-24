@@ -7,13 +7,13 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=Cygwin_1-Windows
-CND_ARTIFACT_DIR_Debug=dist/Debug/Cygwin_1-Windows
-CND_ARTIFACT_NAME_Debug=plagius
-CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin_1-Windows/plagius
-CND_PACKAGE_DIR_Debug=dist/Debug/Cygwin_1-Windows/package
-CND_PACKAGE_NAME_Debug=plagius.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin_1-Windows/package/plagius.tar
+CND_PLATFORM_Debug=GNU-Linux
+CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
+CND_ARTIFACT_NAME_Debug=plagiusc-
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/plagiusc-
+CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
+CND_PACKAGE_NAME_Debug=plagiusc-.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/plagiusc-.tar
 # Release configuration
 CND_PLATFORM_Release=Cygwin_1-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/Cygwin_1-Windows
