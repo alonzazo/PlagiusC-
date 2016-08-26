@@ -55,9 +55,9 @@ public:
     
     string readWord();
     
-    void setFileIn(string fileIn);
+    void setFileInDir(string fileIn);
     
-    void setFileOut(string fileOut);
+    void setFileOutDir(string fileOut);
     
 private:
     
@@ -75,8 +75,9 @@ private:
     
     char readBuffer[256];
     
-    void saveTemp();
+    void resetStream();
     
+    void saveTemp();
 };
 
 #endif /* SINTETIZADORDETEXTO_H */

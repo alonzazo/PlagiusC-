@@ -25,14 +25,15 @@ int main(int argc, char** argv) {
     string in = "in.txt";
     string out = "out.txt";
     SintetizadorDeTexto prueba(in, out);
-    prueba.quitSpaces();
-            
-    cout << prueba.readLn() << endl;
-    cout << prueba.readLn() << endl;
-    cout << prueba.readLn() << endl;
     
-    cout << prueba.readWord() << endl;
-    cout << prueba.readWord() << endl;
+    
+    prueba.makeLowercase();
+    prueba.quitSpaces();
+    prueba.quitComments();
+    
+    for (int i = 0; i < 3;i++){
+        cout << prueba.readLn() << endl;
+    }
     return 0;
 }
 
