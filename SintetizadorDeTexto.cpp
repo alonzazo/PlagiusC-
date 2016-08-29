@@ -11,13 +11,16 @@
  * Created on 18 de agosto de 2016, 08:07 PM
  */
 
+#include <list>
 #include "SintetizadorDeTexto.h"
+
+int SintetizadorDeTexto::instanceCounter = 0;
 
 SintetizadorDeTexto::SintetizadorDeTexto() {
 }
 
 SintetizadorDeTexto::SintetizadorDeTexto(string fileIn, string fileOut) {
-    
+
     //Definimos atributos
     this->fileInDir = fileIn;
     this->fileOutDir = fileOut;
@@ -29,7 +32,9 @@ SintetizadorDeTexto::SintetizadorDeTexto(string fileIn, string fileOut) {
     this->fileIn->open(fileIn);
     this->fileOut->open(fileOut);
     
-    this->fileTempDir = "tmp";
+    
+    this->fileTempDir = "tmp" + std::to_string(instanceCounter);
+    instanceCounter++;
     
     this->resetStream();
 }
@@ -39,7 +44,17 @@ SintetizadorDeTexto::SintetizadorDeTexto(const SintetizadorDeTexto& orig) {
 }
 
 SintetizadorDeTexto::~SintetizadorDeTexto() {
-
+    fileIn->close();
+    fileOut->close();
+    fileTemp->close();
+    
+    delete fileIn;
+    delete fileOut;
+    delete fileTemp;
+    
+    char del[16] = "rm ";
+    system(strcat(del, fileTempDir.data()));
+    
 }
 
 void SintetizadorDeTexto::addLineNumbers(){
@@ -47,20 +62,52 @@ void SintetizadorDeTexto::addLineNumbers(){
     fileOut->close();
     fileOut->open(fileOutDir,ios::in | ios::out | ios::trunc);
     
-    char pointer;
-    int counter = 1;
-    string counterStr;
-    bool flagNewLine = true;
+    //Inicializamos las variables necesarias:
+    char pointer;                               //Apuntador
+    int counter = 1;                            //Contador de linea
+    bool flagNewLine = true;                    //Bandera: Indica que se hizo un 
+                                                //      salto de linea en el 
+                                                //      caracter anterior.
     
+    //Caso de excepcion 1: El caso donde no hay linea predecesora.
     pointer = fileTemp->get();
     if (pointer != '\n'){
         flagNewLine = false;
+        *fileOut << "1 ";
+        fileOut->put(pointer);
+    } 
+    else {
+        counter++;
     }
+    
+    //ALGORITMO
     while(!fileTemp->eof()){
         
         pointer = fileTemp->get();
         
-        //HACE FALTA
+        if (flagNewLine){
+            //Se encuentra salto de linea y con salto predecesor.
+            if (pointer == '\n'){
+                counter++;
+            } 
+            //Con salto predecesor, se agrega numero de linea.
+            else {
+                flagNewLine = false;
+                *fileOut << counter << " ";
+                fileOut->put(pointer);
+            }
+            
+        } else {
+            //Se encuentra salto de linea pero sin salto predecesor.
+            if (pointer == '\n'){
+                flagNewLine = true;
+                counter++;
+            }
+            
+            //Caso generico
+            fileOut->put(pointer);
+        }
+        
     }
     
     //Cerramos archivos para guardar y abrimos
@@ -79,7 +126,31 @@ fstream* SintetizadorDeTexto::getFileOut(){
 }
 
 int SintetizadorDeTexto::getWordsNumber(){
+    //Reseteamos el apuntador del fileOut
+    fileOut->close();
+    fileOut->open(fileOutDir);
     
+    char pointer = fileOut->get();
+    int counter = 0;
+    bool wordMode = false;
+    
+    while (!fileOut->eof()){
+        
+        if (!wordMode && pointer != ' ' && pointer != '\n' || pointer == '\t'){
+            wordMode = true;
+            counter++;
+        } else if (wordMode && (pointer == ' ' || pointer == '\n' || pointer == '\t')){
+            wordMode = false;
+        }
+        
+        pointer = fileOut->get();
+    }
+    
+    //Cerramos archivos para guardar y abrimos
+    fileOut->close();
+    fileOut->open( fileOutDir );
+    
+    return counter;
 }
 
 void SintetizadorDeTexto::justComments(){
@@ -100,14 +171,16 @@ void SintetizadorDeTexto::justComments(){
         pointer[1] = pointer[0];
         pointer[0] = fileTemp->get();
         
-        //Si se encuentra un */ con el paragraphFlag levantado terminamos de escribir
+        //Si se encuentra un */ con el paragraphFlag levantado terminamos de 
+        //   escribir.
         if (paragraphFlag){
             if ( pointer[0] == '/' && pointer[1] == '*' ){
                 paragraphFlag = false;
                 fileOut->put(pointer[2]);
             }
         } 
-        //Si se termina la linea con el lineFlag levantado terminamos de escribir
+        //Si se termina la linea con el lineFlag levantado terminamos de 
+        //  escribir
         else if (pointer[0] == '\n'){
             if (lineFlag == true){
                 lineFlag = false; 
@@ -188,7 +261,7 @@ void SintetizadorDeTexto::quitComments(){
     char pointer[3] = {0,0,0};
     bool lineFlag = false;
     bool paragraphFlag = false;
-    long pos;
+    
     //Analizamos el texto
     while ( !fileTemp->eof() ){
         
@@ -196,21 +269,22 @@ void SintetizadorDeTexto::quitComments(){
         pointer[1] = pointer[0];
         pointer[0] = fileTemp->get();
         
-        //Si se encuentra un */ con el paragraphFlag levantado terminamos de escribir
+        //Si se encuentra un */ con el paragraphFlag levantado terminamos de 
+        //  escribir
         if (paragraphFlag){
             if ( pointer[0] == '/' && pointer[1] == '*' ){
                 paragraphFlag = false;
                 
-                pointer[2] = pointer[1];
-                pointer[1] = pointer[0];
-                pointer[0] = fileTemp->get();
+                for (int i = 0; i < 3 ; i++){
+                    pointer[2] = pointer[1];
+                    pointer[1] = pointer[0];
+                    pointer[0] = fileTemp->get();
+                }
                 
-                pointer[2] = pointer[1];
-                pointer[1] = pointer[0];
-                pointer[0] = fileTemp->get();
             }
         } 
-        //Si se termina la linea con el lineFlag levantado terminamos de escribir
+        //Si se termina la linea con el lineFlag levantado terminamos de 
+        //  escribir
         else if (pointer[2] == '\n'){
             if (lineFlag == true){
                 lineFlag = false; 
@@ -242,6 +316,111 @@ void SintetizadorDeTexto::quitComments(){
 }
 
 void SintetizadorDeTexto::quitReserved(){
+    //Limpiamos el fileOut
+    fileOut->close();
+    fileOut->open(fileOutDir,ios::in | ios::out | ios::trunc);
+    
+    //Instanciamos el stream de palabras reservadas.
+    fstream reservedWordsFile("rsvwrds");
+    //reservedWordsFile->open();
+    
+    char pointer;
+    string word;
+    //Pasamos las reservedWords a una estructura de dato mas facil de manejar
+    TrieTree reservedWords;
+    
+    while (!reservedWordsFile.eof()){
+        // Inicializamos y definimos variables.
+        pointer = reservedWordsFile.get();
+        word = "";
+        
+        // Se busca una palabra.
+        while( !reservedWordsFile.eof() && ( pointer == ' ' || pointer == '\n' || pointer == '\t' ) ){
+            pointer = reservedWordsFile.get();
+        }
+        
+        // Se escribe la palabra encontrada.
+        while (!reservedWordsFile.eof() && ( pointer != ' ' && pointer != '\n' || pointer == '\t' ) ){
+            word += pointer;
+            pointer = reservedWordsFile.get();
+        }
+        
+        // Se agrega la palabra
+        reservedWords.insert(word);
+    
+    }
+    
+    //ALGORITMO
+    bool flag = false;
+    while (!fileTemp->eof()){
+        
+        //Actualizamos apuntador
+        pointer = fileTemp->get();
+        word = "";
+        
+        // Se busca una palabra.
+        while( !fileTemp->eof() && ( pointer == ' ' || pointer == '\n' || pointer == '\t') ){
+            fileOut->put(pointer);  //Se escriben los espacios y saltos de linea
+            pointer = fileTemp->get();
+        }
+        
+        // Se captura la palabra encontrada.
+        while (!fileTemp->eof() && ( pointer != ' ' && pointer != '\n' || pointer == '\t') ){
+            word += pointer;
+            pointer = fileTemp->get();
+        }
+        
+        //Verificamos si la palabra es una reservedWord
+        flag = reservedWords.search(word);
+        /*for (std::list< string >::iterator i = reservedWords.begin(); 
+                i != reservedWords.end(); i++){
+            string s = i->data();
+            if ( !word.compare(s) ){
+                flag = true;
+                break;
+            }
+            
+        }*/
+        
+        //Si la palabra no es una reserved la escribe
+        if (!flag){
+            fileOut->write(word.data(),word.length());
+            fileOut->put(pointer);
+        } else {
+            flag = false;
+        }
+    }
+    
+    //Cerramos archivos para guardar y abrimos
+    fileOut->close();
+    fileOut->open( fileOutDir );
+    
+    saveTemp();
+}
+
+void SintetizadorDeTexto::quitSymbols(){
+    //Limpiamos el fileOut
+    fileOut->close();
+    fileOut->open(fileOutDir,ios::in | ios::out | ios::trunc);
+    
+    //Inicializamos las variables indispensables
+    char pointer = fileTemp->get();
+    
+    while (!fileTemp->eof()){
+        if (pointer == '(' || pointer == ')' || pointer == '{' || pointer == '}' || pointer == ',' || pointer == ';' || pointer == '*' ){
+            fileOut->put(' ');
+        } else {
+            fileOut->put(pointer);
+        }
+        
+        pointer = fileTemp->get();
+    }
+    
+    //Cerramos archivos para guardar y abrimos
+    fileOut->close();
+    fileOut->open( fileOutDir );
+    
+    saveTemp();
 }
 
 void SintetizadorDeTexto::quitSpaces(){
@@ -251,20 +430,21 @@ void SintetizadorDeTexto::quitSpaces(){
     fileOut->open(fileOutDir,ios::in | ios::out | ios::trunc);
     
     //Inicia el algoritmo
-    char pointer;                        // Apuntador de caracter
-    bool modeWriter = true;              // Bandera de escritura
+    char pointer;                           // Apuntador de caracter
+    bool modeWriter = true;                 // Bandera de escritura
     while ( !fileTemp->eof() ){
         
-        pointer = fileTemp->get();         //Obtenemos un caracter
+        pointer = fileTemp->get();          // Obtenemos un caracter
         if ( modeWriter ){
-            if (pointer == ' '){
+            if (pointer == ' ' || pointer == '\t'){
                 modeWriter = false;
             }
-            fileOut->put( pointer );      //Escribimos el caracter en el nuevo archivo
+            fileOut->put( pointer );        // Escribimos el caracter en el 
+                                            //      nuevo archivo.
         } 
-        else if (pointer != ' '){
+        else if (pointer != ' ' && pointer != '\t'){
             modeWriter = true;
-            fileOut->put( pointer );      //Escribimos el caracter
+            fileOut->put( pointer );        //Escribimos el caracter
         }
     
     }
@@ -285,9 +465,21 @@ char* SintetizadorDeTexto::readLn(){
 }
 
 string SintetizadorDeTexto::readWord(){
-    
-    return "";
-    
+    // Inicializamos y definimos variables.
+    char pointer = fileOut->get();
+    string word = "";
+        
+    // Se busca una palabra.
+    while( !fileOut->eof() && ( pointer == ' ' || pointer == '\n' || pointer == '\t' ) ){
+        pointer = fileOut->get();
+    }
+        
+    // Se escribe la palabra encontrada.
+    while (!fileOut->eof() && ( pointer != ' ' && pointer != '\n' || pointer == '\t' ) ){
+        word += pointer;
+        pointer = fileOut->get();
+    }        
+    return word;
 }
 
 void SintetizadorDeTexto::setFileInDir(string fileIn){
@@ -328,6 +520,7 @@ void SintetizadorDeTexto::resetStream(){
         //De igual manera el archivo de entrada
         this->fileIn->close();
         this->fileIn->open(this->fileInDir);
+        
     }
 }
 

@@ -15,10 +15,11 @@
 #ifndef SINTETIZADORDETEXTO_H
 #define SINTETIZADORDETEXTO_H
 
-
+#include <stdlib.h>
 #include <stdio.h>
 #include <fstream>
 #include <string>
+#include "TrieTree.h"
 
 using namespace std;
 
@@ -49,6 +50,8 @@ public:
     
     void quitReserved();
     
+    void quitSymbols();
+    
     void quitSpaces();
     
     char* readLn();
@@ -59,7 +62,11 @@ public:
     
     void setFileOutDir(string fileOut);
     
+    static int instanceCounter;
+    
 private:
+    
+    
     
     string fileInDir;
     

@@ -22,17 +22,27 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    string in = "in.txt";
+    string in = "fibonacci.c";
     string out = "out.txt";
     SintetizadorDeTexto prueba(in, out);
     
+    SintetizadorDeTexto prueba1("in.txt", "bla.txt");
+    
     
     prueba.makeLowercase();
-    prueba.quitSpaces();
+    //prueba.addLineNumbers();
     prueba.quitComments();
+    prueba.quitSymbols();
+    prueba.quitReserved();
+    prueba.quitSpaces();
     
-    for (int i = 0; i < 3;i++){
-        cout << prueba.readLn() << endl;
+    
+    
+            
+    int wordsNum = prueba.getWordsNumber();
+    cout <<  wordsNum << endl;
+    for (int i = 0; i < wordsNum; i++){
+        cout << prueba.readWord()<< endl;;
     }
     return 0;
 }

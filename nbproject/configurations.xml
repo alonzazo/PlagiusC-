@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>AnalizadorDePalabras.h</itemPath>
       <itemPath>SintetizadorDeTexto.h</itemPath>
+      <itemPath>TrieTree.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -16,6 +17,7 @@
                    projectFiles="true">
       <itemPath>AnalizadorDePalabras.cpp</itemPath>
       <itemPath>SintetizadorDeTexto.cpp</itemPath>
+      <itemPath>TrieTree.cpp</itemPath>
       <itemPath>in.txt</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>out.txt</itemPath>
@@ -53,6 +55,10 @@
       </item>
       <item path="SintetizadorDeTexto.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="TrieTree.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TrieTree.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="in.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -88,6 +94,10 @@
       <item path="SintetizadorDeTexto.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SintetizadorDeTexto.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TrieTree.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TrieTree.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="in.txt" ex="false" tool="3" flavor2="0">
       </item>
