@@ -6,6 +6,13 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/oazofeifa/NetBeansProjects/PlagiusC-/AnalizadorDePalabras.cpp</file>
+            <file>file:/home/oazofeifa/NetBeansProjects/PlagiusC-/SintetizadorDeTexto.cpp</file>
+            <file>file:/home/oazofeifa/NetBeansProjects/PlagiusC-/AnalizadorDePalabras.h</file>
+            <file>file:/home/oazofeifa/NetBeansProjects/PlagiusC-/TrieTree.h</file>
+            <file>file:/home/oazofeifa/NetBeansProjects/PlagiusC-/TrieTree.cpp</file>
+            <file>file:/home/oazofeifa/NetBeansProjects/PlagiusC-/main.cpp</file>
+        </group>
     </open-files>
 </project-private>

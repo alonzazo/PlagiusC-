@@ -12,38 +12,75 @@
  */
 
 #include <cstdlib>
+#include <unistd.h>
 #include <iostream>
 #include <string>
 #include "SintetizadorDeTexto.h"
-
+#include "AnalizadorDePalabras.h"
 using namespace std;
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-    string in = "fibonacci.c";
-    string out = "out.txt";
-    SintetizadorDeTexto prueba(in, out);
-    
-    SintetizadorDeTexto prueba1("in.txt", "bla.txt");
-    
-    
-    prueba.makeLowercase();
-    //prueba.addLineNumbers();
-    prueba.quitComments();
-    prueba.quitSymbols();
-    prueba.quitReserved();
-    prueba.quitSpaces();
-    
-    
-    
-            
-    int wordsNum = prueba.getWordsNumber();
-    cout <<  wordsNum << endl;
-    for (int i = 0; i < wordsNum; i++){
-        cout << prueba.readWord()<< endl;;
+
+    bool flg = true;
+
+    while (flg) {
+        system("clear");
+        cout << " _______________________________________________________" << endl;
+        cout << "|                                                       |" << endl;
+        cout << "|                                                       |" << endl;
+        cout << "|                    PLAGIUS C++ 1.0                    |" << endl;
+        cout << "|                                                       |" << endl;
+        cout << "|_______________________________________________________|" << endl;
+        sleep(2);
+        system("clear");
+
+        string in1, in2;
+        cout << "Escriba la direccion del archivo fuente A: " << endl;
+        cin >> in1;
+        system("clear");
+
+        cout << "Escribo la direccion del archivo fuente B: " << endl;
+        cin >> in2;
+        system("clear");
+
+        AnalizadorDePalabras analizer( in1, in2 );
+
+        list< string > analysis = analizer.analize();
+        list< string >::iterator lines = analysis.begin();
+
+        for (int i = 0; i < 6; i++) {
+            cout << *lines << endl;
+            lines++;
+        }
+
+        char c;
+        cout << "\nDigite D para ver detalles | A para analizar otros archivos | X para salir" << endl;
+        cin >> c;
+
+        bool flgCommand = true;
+        while (flgCommand) {
+            switch ( c ) {
+                case 'D':
+                    for (; lines != analysis.end(); lines++) {
+                        cout << *lines << endl;
+                    }
+                    cout << "\nDigite A para analizar otros archivos | X para salir" << endl;
+                    cin >> c;
+                    break;
+                case 'A':
+                    flgCommand = false;
+                    break;
+
+                case 'X':
+                    flgCommand = false;
+                    flg = false;
+            }
+        }
     }
+
     return 0;
 }
 

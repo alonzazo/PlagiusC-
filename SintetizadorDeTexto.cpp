@@ -26,6 +26,9 @@ SintetizadorDeTexto::SintetizadorDeTexto(string fileIn, string fileOut) {
     this->fileOutDir = fileOut;
     
     this->fileIn = new fstream();
+    this->fileOut = new fstream(fileOut, ios::in | ios::out | ios::trunc);
+    this->fileOut->close();
+    delete this->fileOut;
     this->fileOut = new fstream();
     
     //Abrimos archivos
@@ -54,7 +57,8 @@ SintetizadorDeTexto::~SintetizadorDeTexto() {
     
     char del[16] = "rm ";
     system(strcat(del, fileTempDir.data()));
-    
+    del[3] = 0;
+    system(strcat(del, fileOutDir.data()));
 }
 
 void SintetizadorDeTexto::addLineNumbers(){
@@ -136,7 +140,7 @@ int SintetizadorDeTexto::getWordsNumber(){
     
     while (!fileOut->eof()){
         
-        if (!wordMode && pointer != ' ' && pointer != '\n' || pointer == '\t'){
+        if (!wordMode && pointer != ' ' && pointer != '\n' && pointer != '\t'){
             wordMode = true;
             counter++;
         } else if (wordMode && (pointer == ' ' || pointer == '\n' || pointer == '\t')){
@@ -153,11 +157,54 @@ int SintetizadorDeTexto::getWordsNumber(){
     return counter;
 }
 
+int SintetizadorDeTexto::getFilledLinesNumber(){
+    //Reseteamos el apuntador del fileOut
+    fileOut->close();
+    fileOut->open(fileOutDir);
+    
+    string line = "";
+    int counter = 0;
+    
+    while (!fileOut->eof()){
+        
+        if ( line != "" && line != " " && line != "\n" && line != "\t" && line != "\t "){
+            
+            counter++;
+        }
+        
+        line = readLn();
+    }
+    
+    //Cerramos archivos para guardar y abrimos
+    fileOut->close();
+    fileOut->open( fileOutDir );
+    
+    return counter;
+}
+
+int SintetizadorDeTexto::eof(){
+    
+    return fileOut->eof();
+
+}
+
+void SintetizadorDeTexto::setCursorBegin(){
+    
+    //Coloca el cursor en el inicio del documento
+    /*
+    fileOut->seekg(0,fileOut->beg);
+    fileOut->seekp(0,fileOut->beg);
+    */
+    fileOut->close();
+    fileOut->open(fileOutDir, ios::in | ios::out );
+    
+}
+
 void SintetizadorDeTexto::justComments(){
     
     //Limpiamos el fileOut
     fileOut->close();
-    fileOut->open(fileOutDir,ios::in | ios::out | ios::trunc);
+    fileOut->open(fileOutDir, ios::in | ios::out | ios::trunc);
     
     //Inicializamos apuntadores y banderas.
     char pointer[3];
